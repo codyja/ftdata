@@ -4,8 +4,9 @@ import (
 	"encoding/csv"
 	"flag"
 	"fmt"
-	"github.com/codyja/focustronic/api"
 	"io/ioutil"
+
+	"github.com/codyja/focustronic/api"
 
 	//"io/ioutil"
 	"log"
@@ -71,7 +72,6 @@ func csvWriter(headers []string, rows [][]string, file string) {
 	w := csv.NewWriter(output)
 	defer w.Flush()
 
-
 	if err := w.Write(headers); err != nil {
 		log.Fatal("Error writing csv output: ", err)
 	}
@@ -97,17 +97,16 @@ func TimeFormatter(timeStamp int64) string {
 	return f
 }
 
-func GetRecords(c *api.FocustronicClient, deviceType string, deviceId int, days , output , file string) {
+func GetRecords(c *api.FocustronicClient, deviceType string, deviceId int, days int, output, file string) {
 
-	if  deviceType == "alkatronic" {
-		records, err := c.GetRecords(deviceType, deviceId, days)
+	if deviceType == "alkatronic" {
+		records, err := c.GetAlkatronicRecords(deviceId, days)
 		if err != nil {
 			log.Fatalf("Error getting record data: #{err}", err)
 		}
 
 		headers := []string{"KhValue", "Solution Added(mL)", "Time"}
 		var rows [][]string
-
 
 		for _, v := range records.Data {
 			row := []string{
@@ -127,8 +126,8 @@ func GetRecords(c *api.FocustronicClient, deviceType string, deviceId int, days 
 		}
 	}
 
-	if  deviceType == "mastertronic" {
-		records, err := c.GetRecords(deviceType, deviceId, days)
+	if deviceType == "mastertronic" {
+		records, err := c.GetMastertronicRecords(days, deviceId, "")
 		if err != nil {
 			log.Fatalf("Error getting record data: #{err}", err)
 		}
@@ -166,9 +165,9 @@ func GetRecords(c *api.FocustronicClient, deviceType string, deviceId int, days 
 		for _, v := range records.Data {
 			for _, v := range v {
 				row := []string{
-					fmt.Sprintf("%d", v.PumpId),
-					fmt.Sprintf( "%.2f", v.DoseVolume / 100),
-					fmt.Sprintf( "%d", v.DoseMode),
+					fmt.Sprintf("%d", v.PumpID),
+					fmt.Sprintf("%.2f", v.DoseVolume/100),
+					fmt.Sprintf("%d", v.DoseMode),
 					TimeFormatter(v.RecordTime),
 				}
 
@@ -187,7 +186,8 @@ func GetRecords(c *api.FocustronicClient, deviceType string, deviceId int, days 
 }
 
 func listDevices(client *api.FocustronicClient) {
-	allDevices, err := client.GetAllDevices()
+	// allDevices, err := client.GetAllDevices()
+	allDevices, err := client.GetDevices()
 	if err != nil {
 		log.Fatalf("Error getting devices: %s", err, err)
 	}
@@ -222,13 +222,12 @@ func main() {
 	// read flags
 	flagDebug := flag.Bool("debug", false, "Runs in debug mode with extra logging output")
 	flagList := flag.Bool("list", false, "List devices registered to your account")
-*.csv
 	flagDeviceType := flag.String("type", "", "Specify the device `model` to retrieve data for. Valid selections are 'alkatronic', 'dosetronic', or 'mastertronic'.")
 	flagDeviceId := flag.Int("device-id", 0, "Specify the device id for the specific device you want to retrieve records for")
-	flagDays := flag.String("days", "", "Specify the number of days worth of records to retrieve. Valid values are '7', '30', '90'.")
+	flagDays := flag.Int("days", 7, "Specify the number of days worth of records to retrieve. Valid values are '7', '30', '90'.")
 	flagFormat := flag.String("format", "table", "Output format. Possible values are 'table' or 'csv'.")
 	flagFile := flag.String("file", "", "File to save results. Overwrites file if existing. If not specified, prints data directly to terminal stdout.")
-    //flagTimeFormat := flag.String("time-format", "friendly", "By default shows time in '2006-01-02 15:04:05.999999999 -0700 MST' format, but can also specify 'epoch'.")
+	//flagTimeFormat := flag.String("time-format", "friendly", "By default shows time in '2006-01-02 15:04:05.999999999 -0700 MST' format, but can also specify 'epoch'.")
 	flag.Usage = func() {
 		fmt.Fprintf(flag.CommandLine.Output(), usage, os.Args[0])
 		flag.PrintDefaults()
@@ -250,12 +249,11 @@ func main() {
 		os.Exit(0)
 	}
 
-	if *flagDeviceType != "" && *flagDeviceId != 0 && *flagDays != ""  {
-		log.Printf("Records requested for type=%s id=%d days=%s", *flagDeviceType, *flagDeviceId, *flagDays  )
+	if *flagDeviceType != "" && *flagDeviceId != 0 {
+		log.Printf("Records requested for type=%s id=%d days=%d", *flagDeviceType, *flagDeviceId, *flagDays)
 		GetRecords(client, *flagDeviceType, *flagDeviceId, *flagDays, *flagFormat, *flagFile)
 	} else {
 		log.Fatalf("Error, must specify flags....")
 	}
-
 
 }
