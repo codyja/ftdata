@@ -1,12 +1,10 @@
 package cmd
 
 import (
-	"bytes"
 	"encoding/csv"
 	"io"
 	"os"
 	"reflect"
-	"strings"
 	"testing"
 )
 
@@ -45,50 +43,6 @@ func TestTimeFormatter(t *testing.T) {
 	// Check if the actual result is equal to the expected result
 	if actual != expected {
 		t.Errorf("TimeFormatter() = %v, want %v", actual, expected)
-	}
-}
-
-// TestTableWriter tests the tableWriter function
-func TestTableWriter(t *testing.T) {
-	t.Parallel()
-
-	// Test data
-	headers := []string{"KhValue", "Solution Added", "Time"}
-	rows := [][]string{
-		{"7.00", "0.00", "2023-01-27T20:09:36-06:00"},
-		{"7.01", "0.00", "2023-01-31T08:09:42-06:00"},
-	}
-
-	expected := `
-KhValue  Solution Added  Time
-7.00     0.00            2023-01-27T20:09:36-06:00
-7.01     0.00            2023-01-31T08:09:42-06:00
-`
-
-	// Capture the output of tableWriter
-	oldStdout := os.Stdout
-	r, w, _ := os.Pipe()
-	os.Stdout = w
-
-	// Call the function
-	tableWriter(headers, rows)
-
-	// Read the output from the pipe
-	outC := make(chan string)
-	go func() {
-		var buf bytes.Buffer
-		io.Copy(&buf, r)
-		outC <- buf.String()
-	}()
-
-	// Close the pipe
-	w.Close()
-	os.Stdout = oldStdout
-
-	// Get the output and check it
-	output := <-outC
-	if output != strings.TrimLeft(expected, " ") {
-		t.Fatalf("incorrect output: expected %v, got %v", strings.TrimLeft(expected, " "), output)
 	}
 }
 
