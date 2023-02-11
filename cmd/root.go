@@ -4,6 +4,8 @@ Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
+	"io/ioutil"
+	"log"
 	"os"
 
 	"github.com/spf13/cobra"
@@ -21,6 +23,12 @@ as well. Examples:
 ftdata list-devices
 ftdata get --type alkatronic --id 001
 ftdata get --type mastertronic --id 001 --output csv`,
+	PersistentPreRun: func(cmd *cobra.Command, args []string) {
+		if !Verbose {
+			log.SetFlags(0)
+			log.SetOutput(ioutil.Discard)
+		}
+	},
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
@@ -43,7 +51,8 @@ func init() {
 
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
-	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	//rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 	rootCmd.PersistentFlags().BoolVarP(&Verbose, "verbose", "v", false, "verbose level output")
+	rootCmd.CompletionOptions.DisableDefaultCmd = true
 
 }

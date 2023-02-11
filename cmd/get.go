@@ -15,13 +15,11 @@ import (
 // getCmd represents the get command
 var getCmd = &cobra.Command{
 	Use:   "get",
-	Short: "ftdata is a data retrieval tool for Focustronic product owners.",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
+	Short: "The get subcommand retreives records from the Focustronic API.",
+	Long: `This get subcommand allows you to specify the device type (--type)
+and device ID (--id) along with extra flags as needed. Example:
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+ftdata get -t mastertronic -i 001`,
 	Run: func(cmd *cobra.Command, args []string) {
 
 		username, ok := os.LookupEnv("FOCUSTRONIC_USERNAME")
@@ -43,7 +41,6 @@ to quickly create a Cobra application.`,
 		days, _ := cmd.Flags().GetInt("days")
 		deviceid, _ := cmd.Flags().GetInt("id")
 		file, _ := cmd.Flags().GetString("file")
-		fmt.Printf("Device type: %s, Days: %d, Output: %s\n", deviceType, days, output)
 		GetRecords(client, deviceType, deviceid, days, output, file)
 
 	},

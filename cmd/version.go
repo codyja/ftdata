@@ -9,13 +9,15 @@ import (
 	"github.com/spf13/cobra"
 )
 
+const AppVersion = "1.0.0"
+
 // versionCmd represents the version command
 var versionCmd = &cobra.Command{
 	Use:   "version",
 	Short: "Print the version number of ftdata",
 	Long:  "Print the version number of ftdata",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("version called")
+		fmt.Printf("ftdata version: %s", AppVersion)
 	},
 }
 
