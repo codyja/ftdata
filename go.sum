@@ -1,5 +1,5 @@
-github.com/codyja/focustronic v0.0.0-20210313185533-4072c4b9c8e8 h1:qT1p/kDas2jIvBhM2jNxK6E0OZ7WyL+rRe+7EQwp0io=
-github.com/codyja/focustronic v0.0.0-20210313185533-4072c4b9c8e8/go.mod h1:lrHaJp0QKDV9bpCi8sNnfUx2tmC7PR1J+GnQSN9PPCY=
+github.com/codyja/focustronic/api v0.0.0-20230211004101-9b587fb47317 h1:4yNcKBM6/DAPOaX13JL5TaihoD/OLr9SM1l0XD3vF2s=
+github.com/codyja/focustronic/api v0.0.0-20230211004101-9b587fb47317/go.mod h1:vMLLYTj9Qp+JqNx2433d7UCWquI7KNP49lE67TZoRsY=
 github.com/cpuguy83/go-md2man/v2 v2.0.2/go.mod h1:tgQtvFlXSQOSOSIRvRPT7W67SCa46tRHOmNcaadrF8o=
 github.com/davecgh/go-spew v1.1.0 h1:ZDRjVQ15GmhC3fiQ8ni8+OwkZQO4DARzQgrnXU1Liz8=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
@@ -32,7 +32,6 @@ golang.org/x/sys v0.0.0-20220811171246-fbc7d0a398ab/go.mod h1:oPkhp1MJrh7nUepCBc
 golang.org/x/sys v0.3.0 h1:w8ZOecv6NaNa/zC8944JTU3vz4u6Lagfk4RPQxv92NQ=
 golang.org/x/sys v0.3.0/go.mod h1:oPkhp1MJrh7nUepCBck5+mAzfO9JrbApNNgaTdGDITg=
 gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
-gopkg.in/yaml.v3 v3.0.0-20200313102051-9f266ea9e77c h1:dUUwHk2QECo/6vqA44rthZ8ie2QXMNeKRTHCNY2nXvo=
 gopkg.in/yaml.v3 v3.0.0-20200313102051-9f266ea9e77c/go.mod h1:K4uyk7z7BCEPqu6E+C64Yfv1cQ7kz7rIZviUmN+EgEM=
 gopkg.in/yaml.v3 v3.0.1 h1:fxVm/GzAzEWqLHuvctI91KS9hhNmmWOoWu0XTYJS7CA=
 gopkg.in/yaml.v3 v3.0.1/go.mod h1:K4uyk7z7BCEPqu6E+C64Yfv1cQ7kz7rIZviUmN+EgEM=
